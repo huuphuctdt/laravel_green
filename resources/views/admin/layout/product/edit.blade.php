@@ -7,7 +7,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Product Category</h1>
+                        <h1>Product</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -32,7 +32,7 @@
                             </div>
                             <!-- /.card-header -->
                             <!-- form start -->
-                            <form method="post" action="{{ route('product-category.update', $data->id) }}">
+                            <form method="post" action="{{ route('product.update', $data->id) }}">
                                 @csrf
                                 @method('PUT')
                                 <div class="card-body">

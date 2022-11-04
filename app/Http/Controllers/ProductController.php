@@ -36,8 +36,33 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate(['name' => 'required|max:255']);
-        Product::create(['name' => $request->name]);
+        $request->validate([
+            'name' => 'required|max:255',
+            'short_description' => 'required',
+            'long_description' => 'required',
+            'price' => 'required|min:0',
+            'qty' => 'required|min:0',
+            'active' => 'required|boolean',
+            'image' => 'image|mimes:png,jpg,jpeg|max:10240'
+        ]);
+
+        if ($request->image) {
+            $imageName = uniqid() . '.' . $request->image->getClientOriginalName();
+            $request->image->move(public_path('images'), $imageName);
+        }
+
+        Product::create([
+            'name' => $request->name,
+            'short_description' => $request->short_description,
+            'long_description' => $request->long_description,
+            'price' => $request->price,
+            'price_new' => $request->price_new ?? null,
+            'qty' => $request->qty,
+            'weight' => $request->weight ?? null,
+            'image' => $imageName,
+            'active' => $request->active,
+        ]);
+
         return redirect()->route('product.index')->with('success', 'Insert Successfully !');
     }
 
@@ -99,3 +124,4 @@ class ProductController extends Controller
         return redirect()->route('product.index')->with('error', "Can't Delete !");
     }
 }
+
